@@ -21,7 +21,7 @@ repositories {
 		url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
 	}
 
-	maven { url = "https://mvn.devos.one/snapshots/" }
+	maven { url = "https://mvn.devos.one/releases/" }
 
 	maven { url 'https://jitpack.io' }
 
@@ -70,6 +70,7 @@ dependencies {
 	modImplementation(include("io.github.fabricators_of_create.Porting-Lib:tags:${project.portinglib_version}"))
 	modImplementation(include("io.github.fabricators_of_create.Porting-Lib:transfer:${project.portinglib_version}"))
 	modImplementation(include("io.github.fabricators_of_create.Porting-Lib:utility:${project.portinglib_version}"))
+	modImplementation(include("io.github.fabricators_of_create.Porting-Lib:tool_actions:${project.portinglib_version}"))
 }
 
 base {
@@ -108,7 +109,10 @@ jar {
 // configure the maven publication
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
+		maven (MavenPublication) {
+			groupId = group
+			artifactId = project.name
+			version = mod_version
 			from components.java
 		}
 	}
@@ -119,6 +123,11 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+		maven {
+			name 'kirbosoftware'
+			credentials(PasswordCredentials)
+			url 'https://maven.kirbosoftware.com/snapshots'
+		}
 	}
 }
 
